@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Shop Homepage</title>
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/shop.css' %}" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar {
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .list-group-item {
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        .list-group-item:hover {
+            background-color: #e9ecef;
+            cursor: pointer;
+        }
+        .carousel-inner img {
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .card {
+            transition: transform 0.2s;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-img-top {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        footer {
+            margin-top: 20px;
+            background-color: #343a40;
+            color: rgb(0, 0, 0);
+            padding: 20px 0;
+        }
+        .footer-text {
+            text-align: center;
+            font-size: 14px;
+        }
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Tienda Tecsup</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Acerca de</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Servicios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contacto</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container mt-5">
+    <div class="row">
+        <!-- Menú lateral de categorías -->
+        <div class="col-lg-3">
+            <h2 class="category-title">Categorías</h2>
+            <ul class="list-group">
+                {% for categoria in categorias %}
+                    <li class="list-group-item">
+                        <a href="{% url 'tienda:productos_por_categoria' categoria.id %}">{{ categoria.nombre }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Contenido de productos -->
+        <div class="col-lg-9">
+            <!-- Carrusel de imágenes -->
+            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for prod in product_list %}
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                    {% for prod in product_list %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="d-flex justify-content-center">
+                                <img class="d-block img-fluid" src="{{ prod.imagen.url }}" alt="{{ prod.nombre }}">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" style="background-color: black;" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" style="background-color: black;" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+            <!-- Listado de productos -->
+            <div class="row">
+                {% for prod in product_list %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="{% url 'tienda:producto' prod.id %}">
+                                <img class="card-img-top" src="{{ prod.imagen.url }}" alt="{{ prod.nombre }}">
+                            </a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="{% url 'tienda:producto' prod.id %}">{{ prod.nombre }}</a>
+                                </h4>
+                                <h5>S/ {{ prod.precio }}</h5>
+                                <p class="card-text">Categoría: {{ prod.categoria.nombre }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p class="footer-text">Copyright &copy; Your Website 2023</p>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    .product-detail {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        transition: box-shadow 0.3s, transform 0.3s;
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px; /* Limitar el ancho del contenedor */
+        margin: auto; /* Centrar el contenedor */
+    }
+
+    .product-detail:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px);
+    }
+
+    .product-detail img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 15px; /* Espaciado debajo de la imagen */
+    }
+
+    .product-name {
+        font-size: 1.5em;
+        margin: 10px 0;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .product-price {
+        color: #28a745; /* Color verde para el precio */
+        font-weight: bold;
+        font-size: 1.3em;
+        margin-top: 5px;
+    }
+
+    .product-description {
+        font-size: 1em;
+        color: #666;
+        margin: 10px 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+</style>
+
+<div class="container mt-5">
+    <h1>{{ producto.nombre }}</h1>
+    <div class="product-detail">
+        <h2 class="product-price">S/ {{ producto.precio }}</h2>
+        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-fluid">
+        <p class="product-description">{{ producto.descripcion }}</p>
+        <a href="{% url 'tienda:index' %}" class="btn btn-primary mt-3">Volver a la tienda</a>
+    </div>
+</div>
+{% endblock %}

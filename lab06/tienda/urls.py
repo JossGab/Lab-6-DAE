@@ -1,0 +1,17 @@
+from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from . import views
+
+app_name = 'tienda'
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('producto/<int:producto_id>/', views.producto, name='producto'),
+    path('categoria/<int:categoria_id>/', views.productos_por_categoria, name='productos_por_categoria'),
+]
+
+# Agregar las URL de los medios solo si DEBUG es True
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
